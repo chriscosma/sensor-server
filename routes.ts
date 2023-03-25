@@ -12,6 +12,8 @@ router.post("/readings/add", async (ctx) => {
     const reading: Reading = await ctx.request.body().value;
     reading.timestamp = new Date();
 
+    console.log("Inserting reading at", reading.timestamp);
+
     const db = client.database("readings");
     const readings = db.collection<Reading>("readings");
     await readings.insertOne(reading);
