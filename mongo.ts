@@ -1,22 +1,22 @@
-import { MongoClient } from "https://deno.land/x/mongo@v0.31.2/mod.ts";
+import { MongoClient } from "https://deno.land/x/atlas_sdk@v1.1.1/mod.ts";
 import { config } from "https://deno.land/x/dotenv/mod.ts";
 
-const client = new MongoClient();
-
-let username, password;
+let apiKey;
 
 const isDenoDeploy = Deno.env.get("DENO_DEPLOYMENT_ID") !== undefined;
 if (isDenoDeploy) {
-    username = Deno.env.get("USERNAME");
-    password = Deno.env.get("PASSWORD");
+    apiKey = Deno.env.get("API_KEY");
 } else {
     const mongo_config = config();
-    username = mongo_config.USERNAME;
-    password = mongo_config.PASSWORD;
+    apiKey = mongo_config.API_KEY;
 }
 
-await client.connect(
-    `mongodb+srv://${username}:${password}@cluster0.v5uacbb.mongodb.net/readings?retryWrites=true&w=majority&authMechanism=SCRAM-SHA-1`
-)
+const client = new MongoClient({
+    endpoint: "https://us-east-1.aws.data.mongodb-api.com/app/data-mdjzg/endpoint/data/v1",
+    dataSource: "Cluster0",
+    auth: {
+        apiKey: apiKey!
+    }
+});
 
 export { client };

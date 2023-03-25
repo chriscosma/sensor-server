@@ -4,6 +4,10 @@ import { client } from "./mongo.ts";
 
 const router = new Router();
 
+router.get("/", (ctx) => {
+    ctx.response.body = "Plant Parenting Sensor Server";
+});
+
 router.post("/readings/add", async (ctx) => {
     const reading: Reading = await ctx.request.body().value;
     reading.timestamp = new Date();
@@ -12,6 +16,7 @@ router.post("/readings/add", async (ctx) => {
     const readings = db.collection<Reading>("readings");
     await readings.insertOne(reading);
 
+    ctx.response.status = 200;
 });
 
 export default router;
