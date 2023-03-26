@@ -5,7 +5,14 @@ import { client } from "./mongo.ts";
 const router = new Router();
 
 router.get("/", (ctx) => {
-    ctx.response.body = "Plant Parenting Sensor Server";
+    ctx.response.body =
+    `
+    <html>
+    <body>
+    <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="960" height="720" src="https://charts.mongodb.com/charts-plant-parenting-nvnxo/embed/charts?id=642085f9-a2c6-422a-8039-9b783b52d88b&maxDataAge=60&theme=light&autoRefresh=true"></iframe>
+    </body>
+    </html>
+    `;
 });
 
 router.post("/readings/add", async (ctx) => {
